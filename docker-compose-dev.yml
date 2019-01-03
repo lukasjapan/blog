@@ -1,0 +1,17 @@
+version: "2"
+
+services:
+  blog:
+    build: .
+    ports:
+      - 80:4000
+    volumes:
+      - .:/opt/blog
+    command:
+      - jekyll
+      - server
+      - --source
+      - site
+      - --watch
+      - --host
+      - 0.0.0.0

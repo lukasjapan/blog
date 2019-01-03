@@ -1,0 +1,18 @@
+<ul id="post-list">
+    {% for post in paginator.posts %}
+        <li>
+            <a href="{{ site.baseurl }}{{ post.url | remove_first: '/' }}">
+                <article>
+                    <img class="banner" src="{{ post.banner }}">
+                    <div class="dates">{{ post.date | date:"%b %d" }}</div>
+                    <h2>{{ post.title }}</h2>
+                    <h3>{{ post.description }}</h3>
+                </article>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if paginator.previous_page or paginator.next_page %}
+    {% include pagination.html %}
+{% endif %}

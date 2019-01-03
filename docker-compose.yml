@@ -1,0 +1,7 @@
+version: "2"
+
+services:
+  blog:
+    build: .
+    ports:
+      - 8000:4000
