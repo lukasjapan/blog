@@ -44,12 +44,12 @@ Let's see what we have:
 
 {% responsive_image path: images/the-super-nintendo-retropi-casemod/controller-connector.jpeg alt: "Connector board fo controller(s)" %}
 
-To replace all of these parts, I bought a [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/).
+To replace most of these parts, I bought a [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/).
 Choosing the Raspberry Pi (again) for this project is really a no brainer.
-It is reasonably cheap and the available resources and software on the internet are sheer endless.
+It is reasonably cheap and the available resources and software on the internet are endless.
 
-To keep things simple and reduce connectors, I opted for cables directly coming out of Super Nintendo case.
-I use a USB-C cable for power and a HDMI cable for Video and Audio.
+To keep things simple and reduce connectors, I opted for cables directly coming out of the Super Nintendos case.
+I use an USB-C cable for power and an HDMI cable for Video and Audio.
 
 As a convenient extra, I also exposed an USB port with a rather strange extension plug that I had lying around.
 I have no idea where I got that from but it fitted perfectly into the hole for the original A/V connector.
@@ -64,10 +64,10 @@ The Super Nintendo has 3 buttons at the front.
 Power, reset and the cartrige eject button.
 
 Ejecting the cartrige from the Super Nintendo is solved purely mechanical with the big white plastic I took out earlier.
-Since I do not have any need for game cartriges, I simply got rid of all the parts and glued the eject button from the inside, so it doesn't hang loose.
+Since I do not have any need for game cartriges, I simply got rid of all these parts and glued the eject button from the inside, so it doesn't hang loose.
 
 The power as well as the reset button are simple switches as you can get them in any electronics store.
-The power switch is a [toggle switch](https://en.wikipedia.org/wiki/Switch#Toggle_switch) while the reset switch is a [momentary switch](https://en.wikipedia.org/wiki/Push-button).
+The power button is a [toggle switch](https://en.wikipedia.org/wiki/Switch#Toggle_switch) while the reset button is a [momentary switch](https://en.wikipedia.org/wiki/Push-button).
 These can be connected to the Raspberry Pi's [GPIO](https://www.raspberrypi.org/documentation/usage/gpio/).
 This is basically the simplest thing that you can connect to the Pi and there are tons of [tutorials](https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/) out there on how to do that.
 After connecting the switches, their state can be read by the Pi.
@@ -85,7 +85,7 @@ An open switch without a resistor basically short circuit the GPIO if it is setu
 # Connecting the Original Controllers and Using the Power LED
 
 For the perfect retro feeling I also want to reuse the original controllers.
-The [low level specification](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395) of the controllers was already well reverse engineered a long time ago.
+The [low level specification](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395) of the controllers was already reverse engineered a long time ago.
 
 The specification mentions 5 Volt but the controllers also work well on the 3 Volts that are used by the Raspberry Pi's GPIO.
 All that has to be done is to power up the board and connect the clock/latch/data contacts with the Pi to communicate.
@@ -110,7 +110,7 @@ This is also a no brainer.
 [RetroPie](https://retropie.org.uk/) is well known and makes it easy to set up the emulator on top of Raspbian OS.
 There is really no need here to further explain the installation, just check out their homepage.
 
-The [driver for the controllers](https://github.com/petrockblog/SNESDev-RPi) have been developed already by petrockblog.
+The [driver for the controllers](https://github.com/petrockblog/SNESDev-RPi) has already been developed by petrockblog.
 There is no need to get my own hands dirty.
 It works fine even without the recommended adapter as long as the GPIO pins are [connected correctly](https://github.com/petrockblog/SNESDev-RPi/blob/master/src/SNESDev.c#L161).
 
