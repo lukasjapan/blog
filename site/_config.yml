@@ -7,7 +7,6 @@ aboutPage: true
 markdown: redcarpet
 highlighter: pygments
 
-gems: [jekyll-paginate]
 paginate: 20
 baseurl: /
 domain_name: 'https://blog.cvguy.de'
@@ -17,7 +16,12 @@ disqus_shortname: 'cvguyde'
 url: 'https://blog.cvguy.de'
 author: 'Lukas'
 
-permalink:       /:year/:title/
+plugins:
+    - jekyll-paginate
+    - jekyll-youtube
+    - jekyll-responsive-image
+
+permalink: /:year/:title/
 
 defaults:
     -
@@ -38,3 +42,8 @@ defaults:
             type: drafts
         values:
             layout: post
+
+responsive_image:
+  template: _includes/picture.html
+  sizes:
+    - width: 480
