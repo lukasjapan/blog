@@ -3,7 +3,9 @@ FROM ruby
 WORKDIR /opt/blog
 
 COPY Gemfile .
+COPY Gemfile.lock .
 
+RUN gem install bundler:1.15.3
 RUN bundle install 
 
 COPY . /opt/blog

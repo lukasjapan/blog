@@ -18,10 +18,15 @@ GEM
       rouge (~> 1.7)
       safe_yaml (~> 1.0)
     jekyll-paginate (1.1.0)
+    jekyll-responsive-image (1.5.5)
+      jekyll (>= 2.0, < 5.0)
+      rmagick (>= 2.0, < 5.0)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
     jekyll-watch (1.5.0)
       listen (~> 3.0, < 3.1)
+    jekyll-youtube (1.0.0)
+      jekyll
     kramdown (1.15.0)
     liquid (4.0.0)
     listen (3.0.8)
@@ -38,6 +43,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redcarpet (3.4.0)
+    rmagick (4.1.2)
     rouge (1.11.1)
     safe_yaml (1.0.4)
     sass (3.5.1)
@@ -52,8 +58,10 @@ PLATFORMS
 DEPENDENCIES
   jekyll
   jekyll-paginate
+  jekyll-responsive-image
+  jekyll-youtube
   pygments.rb
   redcarpet
 
 BUNDLED WITH
-   1.15.3
+   2.1.4
