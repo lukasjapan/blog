@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Lukas' Blog</title>
+    <description>About the things I make</description>
+    <link>https://blog.cvguy.de</link>
+    <atom:link href="https://blog.cvguy.de/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>The Super Nintendo RetroPie Casemod</title>
+        
+        
+          <description>&lt;p&gt;Ok, this is a project that probably has been done many times already, but I needed to do this to resolve a little childhood trauma.
+I had a Game Boy but my parents never allowed me to have a Super Nintendo.
+I guess that is what you get when you spend too much time with your handheld console but not enough time with your homework.&lt;/p&gt;
+</description>
+        
+        <pubDate>Mon, 17 Aug 2020 17:27:00 +0900</pubDate>
+        <link>https://blog.cvguy.de/2020/the-supernintendo-retropi-casemod/</link>
+        <guid isPermaLink="true">https://blog.cvguy.de/2020/the-supernintendo-retropi-casemod/</guid>
+      </item>
+    
+      <item>
+        <title>Distinguishing Cats from Dogs with Deeplearning4j, Kotlin and the VGG16 model</title>
+        
+        
+          <description>&lt;p&gt;The first task in the &lt;a href=&quot;http://www.fast.ai/&quot;&gt;fast.ai&lt;/a&gt; course is to enter a compitition on &lt;a href=&quot;https://www.kaggle.com/c/dogs-vs-cats&quot;&gt;Kaggle&lt;/a&gt;.
+The competitions goal is to successfully distinguish between cat and dog images.
+I didn’t go so far to submit my result to Kaggle, but instead, I gave myself the challenge to solve the problem within a completely different technology stack rather than using the one from the course.&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 29 Oct 2017 19:25:00 +0900</pubDate>
+        <link>https://blog.cvguy.de/2017/using-deeplearning4j-to-distinguish-between-cats-and-dogs/</link>
+        <guid isPermaLink="true">https://blog.cvguy.de/2017/using-deeplearning4j-to-distinguish-between-cats-and-dogs/</guid>
+      </item>
+    
+      <item>
+        <title>Setting up the fast.ai deep learning course on OSX with Anaconda</title>
+        
+        
+          <description>&lt;p&gt;So I decided to give a try to the free deep learning course published on &lt;a href=&quot;http://www.fast.ai/&quot;&gt;fast.ai&lt;/a&gt;.
+The first lesson was not too difficult for me as half on it was about setting up things.
+The other half were mostly things I already knew about deep learning, but it was refreshing to see how things are actually done with real code.&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 01 Oct 2017 22:22:00 +0900</pubDate>
+        <link>https://blog.cvguy.de/2017/fast-ai-course-on-macmini/</link>
+        <guid isPermaLink="true">https://blog.cvguy.de/2017/fast-ai-course-on-macmini/</guid>
+      </item>
+    
+      <item>
+        <title>Building a R2D2 Themed Bluetooth Speaker</title>
+        
+        
+          <description>&lt;p&gt;My girlfriend brought &lt;a href=&quot;https://www.google.co.jp/search?q=r2d2+popcorn+bucket&amp;amp;tbm=isch&quot;&gt;a R2D2 shaped popcorn bucket&lt;/a&gt; from Tokyo Disneyland the other day.
+Turns out that it’s pretty much useless, once the popcorn is gone… so I took my freedom to build something out of it.
+And all I needed were some tools and a Raspberry Pi 3.&lt;/p&gt;
+</description>
+        
+        <pubDate>Thu, 30 Mar 2017 23:12:00 +0900</pubDate>
+        <link>https://blog.cvguy.de/2017/building-a-r2d2-themed-bluetooth-speaker/</link>
+        <guid isPermaLink="true">https://blog.cvguy.de/2017/building-a-r2d2-themed-bluetooth-speaker/</guid>
+      </item>
+    
+      <item>
+        <title>Making Bluetooth Audio Work Properly on the Raspberry Pi 3</title>
+        
+        
+          <description>&lt;p&gt;The Raspberry Pi 3 ships with a Bluetooth chip which is awesome.
+It can be used for many purposes but the first thing that comes into my mind is to transform it into a portable speaker.&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 12 Mar 2017 14:32:00 +0900</pubDate>
+        <link>https://blog.cvguy.de/2017/creating-a-blootooth-speaker-with-raspberrypi-3/</link>
+        <guid isPermaLink="true">https://blog.cvguy.de/2017/creating-a-blootooth-speaker-with-raspberrypi-3/</guid>
+      </item>
+    
+      <item>
+        <title>Streaming Geoblocked Contents without VPN</title>
+        
+        
+          <description>&lt;p&gt;So the UEFA Euro cup 2016 is on and I am sitting here in Tokyo wanting to watch the games.
+I could get cable or go to sport bars.
+Getting cable just for the games is not worth the money and hanging around in bars at night (the games will show from around 11pm to 5am here) is not a favorable option as well.&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 19 Jun 2016 15:22:00 +0900</pubDate>
+        <link>https://blog.cvguy.de/2016/streaming-geoblocked-contents-without-vpn/</link>
+        <guid isPermaLink="true">https://blog.cvguy.de/2016/streaming-geoblocked-contents-without-vpn/</guid>
+      </item>
+    
+  </channel>
+</rss>

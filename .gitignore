@@ -1,7 +1,7 @@
-_site/
 .sass-cache/
 .DS_Store.idea
 .bundle
 .idea
 vendor
 .DS_Store
+.jekyll-cache

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lukas' Blog - Making Bluetooth Audio Work Properly on the Raspberry Pi 3</title>
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="My Blog" href="/rss.xml">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/github-gist.min.css">
+  <link rel="canonical" href="https://blog.cvguy.de/2017/creating-a-blootooth-speaker-with-raspberrypi-3/">
+  
+    <meta property="og:url" content="https://blog.cvguy.de/2017/creating-a-blootooth-speaker-with-raspberrypi-3/">
+    <meta property="og:title" content="Making Bluetooth Audio Work Properly on the Raspberry Pi 3">
+    <meta property="og:description" content="An A2AP/AVRCP implementation in Python that uses the BlueZ5 DBUS interface.">
+    <meta property="og:image" content="https://blog.cvguy.de/images/making-bluetooth-audio-work-properly-on-the-raspberry-pi-3/banner.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="200">
+    <meta property="og:image:height" content="200">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Making Bluetooth Audio Work Properly on the Raspberry Pi 3" />
+    <meta name="twitter:description" content="An A2AP/AVRCP implementation in Python that uses the BlueZ5 DBUS interface." />
+    <meta name="twitter:image" content="https://blog.cvguy.de/images/making-bluetooth-audio-work-properly-on-the-raspberry-pi-3/banner.png" />
+  
+</head>
+<body>
+
+  <nav class="main-nav">
+    
+        <a href="/"> <span class="arrow">←</span> Home </a>
+    
+
+    
+        
+            <a href="/about/">About </a>
+        
+    
+    <a class="cta" href="/feed.xml">Subscribe</a>
+</nav>
+
+
+  
+
+  <section id="wrapper" class="">
+    <article class="post">
+    <header>
+        
+            <img class="banner" src="/images/making-bluetooth-audio-work-properly-on-the-raspberry-pi-3/banner.png">
+        
+        <h1>Making Bluetooth Audio Work Properly on the Raspberry Pi 3</h1>
+        <h2 class="headline">March 12, 2017</h2>
+    </header>
+    <section class="post-body">
+        <p>The Raspberry Pi 3 ships with a Bluetooth chip which is awesome.
+It can be used for many purposes but the first thing that comes into my mind is to transform it into a portable speaker.</p>
+
+<p>By doing a quick Google search, everybody suggest the same solution (such as <a href="http://www.instructables.com/id/Turn-your-Raspberry-Pi-into-a-Portable-Bluetooth-A/">here</a>) by setting up a few config file and let PulseAudio handle the rest.
+But this solution has some serious drawbacks, I was unsatisfied with the following points:</p>
+
+<ul>
+  <li>There is a significant audio delay of 1-3 seconds</li>
+  <li>Sound quality is bad due to remixing or resampling within PulseAudio (and I couldn’t fix it)</li>
+  <li>Remote volume control is not working</li>
+  <li>Clients have to be paired manually</li>
+</ul>
+
+<p>Some of this problems might get fixed in future releases of PulseAudio, but it seems it was never designed to run on ARM devices in the first place.
+So I had to come up with a better working solution.</p>
+
+<p><em>For the impatient:</em></p>
+
+<p>I uploaded the whole solution on <a href="https://github.com/lukasjapan/bt-speaker">Github</a> and the speaker daemon can be installed (on raspbian) with the following command:</p>
+
+<pre><code class="language-bash">curl -s https://raw.githubusercontent.com/lukasjapan/bt-speaker/master/install.sh | sudo bash
+</code></pre>
+
+<p>For everybody else, keep reading to learn about the internals.</p>
+
+<h2 id="linux-bluetooth-system-bluez">Linux Bluetooth system (BlueZ)</h2>
+
+<p>First we need to understand what we are working with.
+Let’s start with the Linux Bluetooth stack.
+It is implemented by the volunteers of the <a href="http://www.bluez.org/">BlueZ project</a>.</p>
+
+<p><img src="/images/making-bluetooth-audio-work-properly-on-the-raspberry-pi-3/diagram1.png" alt="Diagram representing the BlueZ architecture" /></p>
+
+<p>The Bluetooth hardware is controlled by interacting with Bluez’s daemon via its <a href="https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc">DBUS interface</a> (more info about DBUS <a href="https://www.freedesktop.org/wiki/Software/dbus/">here</a>).
+Basic operations such as connecting or pairing devices can be done with <a href="https://linux.die.net/man/1/hcitool">hcitool</a> which is an interactive tool for the command line.
+Under the hood, it also uses the DBUS interface, thus all of its logic can be implemented into any other application rather easily.</p>
+
+<p>Actual functionality is provided by other applications that also have to use the DBUS interface.
+For example the <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/">PulseAudio Bluetooth Modules</a> which will simply collect all music streams from connected clients and pass them to the default audio sink.</p>
+
+<h2 id="bluetooth-profiles">Bluetooth profiles</h2>
+
+<p>Next, we need to think about how we can use BlueZ to achieve what we want.</p>
+
+<p>Bluetooth itself defines a set of protocols that are called <a href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles">profiles</a>.
+The profiles that we can use with BlueZ are listed <a href="http://www.bluez.org/profiles/">here</a>.</p>
+
+<p>To build a speaker we can use A2DP (Advanced Audio Distribution Profile) for transferring the audio stream and AVRCP (Audio/Video Remote Control Profile) for noticing changes in volume.
+Naturally, the client (such as a smartphone) also has to support these profiles.
+This is normally the case and can be verified for iOS devices <a href="https://support.apple.com/en-kw/HT204387">here</a> and for Android devices with a little bit of searching <a href="https://developer.android.com/reference/android/bluetooth/package-summary.html">here</a>.</p>
+
+<h2 id="bluetooth-speaker-implementation">Bluetooth Speaker Implementation</h2>
+
+<p>Now, we can start to build an application that uses A2DP and AVRCP to turn the Pi into a speaker.</p>
+
+<p>I found the great <a href="https://github.com/liamw9534/bt-manager">BT-Manager</a> library for Python and am going to build upon that.
+Unfortunately it was written for the DBUS interface of Bluez Version 4 which is outdated by now.
+So I had to rewrite a lot of parts to make them work with Bluez Version 5 in the process.</p>
+
+<p>From now on, I am trying to keep the following a bit more general for better understanding.
+Please read the <a href="https://github.com/lukasjapan/bt-speaker">source code</a>  and <a href="https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc">API documents</a> if you want to know about the nasty details.</p>
+
+<h3 id="connection-of-the-client-devices">Connection of the Client Devices</h3>
+
+<p>The first thing to do is to make connections of client devices more practical.
+Currently all devices have to be paired manually via <code>hcitool</code> before they are allowed to stream audio.
+That is quite bothersome.</p>
+
+<p>By using the BlueZ DBUS API, a callback can be registered that will be executed whenever a client wants to connect with a profile.
+Inside the callback, it can be decided if a client should be accepted or rejected.</p>
+
+<p>The logic I implemented lets a single client connect unconditionally with the A2AP/ACRPC profiles and reject all other clients until it disconnects.
+I enable the visibility of the device by default but am hiding it when a client is connected.</p>
+
+<p>The result of this simple logic is that the speaker works on a first come first served basis.
+This is not typical for Bluetooth.
+Normally the device will not let any client connect while being paired with another one.
+However, since there is no convenient way to tell the Raspberry Pi to unpair the current client, this logic works out quite well here.</p>
+
+<h3 id="retrieving-the-audio-stream">Retrieving the Audio Stream</h3>
+
+<p>Bluetooth’s A2AP profile allows MPEG-1 and AAC streams but also defines its own codec, the <a href="https://en.wikipedia.org/wiki/SBC_(codec)">SBC codec</a>.
+Implementation of this codec is mandatory for any device using the A2AP profile.</p>
+
+<p>After letting Bluez know what kind of streams the application can handle, another callback is registered.
+This callback will receive a file descriptor once an audio stream is ready to be transferred.
+It looks like that the file descriptor transports the stream in RPT packets which contain the SBC encoded data.
+More detail about this can be found in the articles from the <a href="http://www.lightofdawn.org/blog/?viewCat=Bluetooth">Light of Dawn blog</a>.</p>
+
+<p>These packets will be decoded by a <a href="https://github.com/lukasjapan/bt-speaker/tree/master/codecs">small C-library</a> which finally produces raw audio that can be passed to ALSA or processed otherwise if desired.</p>
+
+<p>It turns out that the decoding process just uses about 5-10% of the Raspberry Pi’s CPU power which leaves more than enough space for other applications.</p>
+
+<h3 id="volume-control">Volume Control</h3>
+
+<p>When a client is connected with the AVRCP profile, changes in volume and also current audio track information are broadcasted on the DBUS.</p>
+
+<p>All that needs to be done is to listen to these messages and react to them appropriately.
+I forward changes in volume directly to the primary ALSA mixer.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The final application works much better than the PulseAudio solution.
+I got improvements in speed, performance and can now also control the volume from my smartphone.
+Not having to install the complete PulseAudio suite is quite nice too.</p>
+
+<p>However, one thing that still bothers me is the sound quality.
+It has definitely been improved but is not perfect yet.</p>
+
+<p>I am using the 3.5mm headphone jack and there is constant high pitch interference noise.
+It seems to be a <a href="https://www.raspberrypi.org/forums/viewtopic.php?f=38&amp;t=37038">problem with the Raspberry Pi</a> itself.
+Maybe an external soundboard could make things better.</p>
+
+<p>Also, compared to connecting my phone directly to the speaker, the quality is just not as good.
+This may be a side effect from using the SBC codec but I won’t know for sure unless I try to stream the audio in MPEG-1 or AAC.</p>
+
+<h2 id="the-source-code">The source code</h2>
+
+<p>The full source code of this project is available on <a href="https://github.com/lukasjapan/bt-speaker">Github</a>.
+In most cases it will be sufficient to edit <a href="https://github.com/lukasjapan/bt-speaker/blob/master/bt_speaker.py">bt_speaker.py</a> if you want to add your own logic.</p>
+
+<p>So, that’s it!
+I hope my work makes your life a bit easier and realizes some great Raspberry Pi powered speaker projects.
+Thanks for reading and stay tuned for more!</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https://blog.cvguy.de/2017/creating-a-blootooth-speaker-with-raspberrypi-3/ - Making Bluetooth Audio Work Properly on the Raspberry Pi 3 by @"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+    </section>
+</footer>
+
+<!-- Disqus comments -->
+
+    <div class="archive readmore">
+        <h3>Comments</h3>
+        <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'cvguyde';
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+    </div>
+
+
+<!-- Archive post list -->
+
+
+    <footer id="footer">
+    <p class="small">© Copyright 2022 Lukas</p>
+</footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/bash.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/python.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/kotlin.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/dockerfile.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79522465-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>
+
+
+

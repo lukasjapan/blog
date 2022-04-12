@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lukas' Blog - Building a R2D2 Themed Bluetooth Speaker</title>
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="My Blog" href="/rss.xml">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/github-gist.min.css">
+  <link rel="canonical" href="https://blog.cvguy.de/2017/building-a-r2d2-themed-bluetooth-speaker/">
+  
+    <meta property="og:url" content="https://blog.cvguy.de/2017/building-a-r2d2-themed-bluetooth-speaker/">
+    <meta property="og:title" content="Building a R2D2 Themed Bluetooth Speaker">
+    <meta property="og:description" content="My R2D2 Bluetooth Speaker made out of a popcorn bucket from Tokyo Disneyland.">
+    <meta property="og:image" content="https://blog.cvguy.de/images/building-a-r2d2-bluetooth-speaker/banner.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="200">
+    <meta property="og:image:height" content="200">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Building a R2D2 Themed Bluetooth Speaker" />
+    <meta name="twitter:description" content="My R2D2 Bluetooth Speaker made out of a popcorn bucket from Tokyo Disneyland." />
+    <meta name="twitter:image" content="https://blog.cvguy.de/images/building-a-r2d2-bluetooth-speaker/banner.png" />
+  
+</head>
+<body>
+
+  <nav class="main-nav">
+    
+        <a href="/"> <span class="arrow">←</span> Home </a>
+    
+
+    
+        
+            <a href="/about/">About </a>
+        
+    
+    <a class="cta" href="/feed.xml">Subscribe</a>
+</nav>
+
+
+  
+
+  <section id="wrapper" class="">
+    <article class="post">
+    <header>
+        
+            <img class="banner" src="/images/building-a-r2d2-bluetooth-speaker/banner.png">
+        
+        <h1>Building a R2D2 Themed Bluetooth Speaker</h1>
+        <h2 class="headline">March 30, 2017</h2>
+    </header>
+    <section class="post-body">
+        <p>My girlfriend brought <a href="https://www.google.co.jp/search?q=r2d2+popcorn+bucket&amp;tbm=isch">a R2D2 shaped popcorn bucket</a> from Tokyo Disneyland the other day.
+Turns out that it’s pretty much useless, once the popcorn is gone… so I took my freedom to build something out of it.
+And all I needed were some tools and a Raspberry Pi 3.</p>
+
+<p>I proudly present my R2D2 Bluetooth Speaker!</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d21.png" alt="The finished R2D2 Speaker!" /></p>
+
+<p>So how to build this thing?</p>
+
+<p>The most important parts for building a speaker is the speaker unit itself and of course an amplifier.
+Luckily everything can be bought on the internet nowadays.
+I got a <a href="https://www.amazon.co.jp/gp/product/B009V58142/ref=oh_aui_detailpage_o01_s00?ie=UTF8&amp;psc=1">10cm full range speaker unit</a> from Amazon (~15$).
+And also the <a href="https://www.amazon.co.jp/gp/product/B00K67WI9I/ref=od_aui_detailpages00?ie=UTF8&amp;psc=1">amp</a> that was even cheaper (~4$).</p>
+
+<p>Lets have a look at the schematics:</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/circuit.png" alt="R2D2s circuit" /></p>
+
+<p>There is not much to explain here, its basically just soldering the parts and a few connectors together.
+Since the amp runs on 12V I needed to add a converter that steps down the input voltage for the Raspberry Pi which runs on 5V.</p>
+
+<p>First of all, I gave R2D2 a surgery:</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_1.png" alt="R2D2 before the surgery ..." />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_2.png" alt="... and after the surgery" /></p>
+
+<p>To connect the speaker unit with the bucket I got a block of balsa wood.
+Balsa is super easy to process.
+As you can see in the pictures below, I attached the speaker unit to the balsa and afterwards the whole thing to the bucket.
+I used some sharp screws that easily go through the plastic.
+Finally I filled the gaps with a glue gun.
+This is needed to prevent an acoustic short circuit.</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_3.png" alt="The block of balsa wood and some tools" />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_5.png" alt="After preparation the speaker unit is ready to be mounted" />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_6.png" alt="Connecting the speaker unit from the inside" /></p>
+
+<p>I couldn’t wait, so I hooked up the amp with the speaker and my phone.
+Works great so far!</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_12.png" alt="Testing the speaker unit" /></p>
+
+<p>Open cables are not cool, so I have to tidy things up.
+I started with the power cables.
+The DC connector goes underneath R2D2.</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_7.png" alt="This little guy..." />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_9.png" alt="... can now be used to connect a 12V power source to R2D2" />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_8.png" alt="It is fixed with the glue gun on the inside" /></p>
+
+<p>For a bit more comfort, R2D2 also gets a power switch.</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_11.png" alt="It is placed right under the speaker unit at the outside ..." />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_10.png" alt="... and looks like this from the inside" /></p>
+
+<p>Next, I want to put the amp inside R2D2.
+I mounted it on a prepared piece of plywood that will cover the bucket.
+The DCDC converter is quite bulky and I want to hide it as well, so I also screwed it underneath the plate.</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_14.png" alt="The wooden plate with the DCDC converter and amp underneath ..." />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_15.png" alt="... covers R2D2s body and hides the inner parts" /></p>
+
+<p>The Raspberry Pi will be mounted on the top of the plate.
+It is R2D2s brain!
+Once mounted, I just have to connect it to the 5V power source and the headphone jack with the amplifier.</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_16.png" alt="R2D2 now has a brain!" />
+<img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_17.png" alt="The remaining gaps have been sealed off with tape" /></p>
+
+<p>The last task is to make the Raspberry Pi accept Bluetooth connections and output the music to the headphone jack.
+By using <a href="https://github.com/lukasjapan/bt-speaker">bt-speaker</a>, a library that I wrote for this project, it can be done with a single command.
+I wrote a rather technical article about how it works <a href="/2017/creating-a-blootooth-speaker-with-raspberrypi-3/">here</a>.</p>
+
+<p>R2D2 is powered by 12V direct current.
+Luckily this is pretty common for small home electronics and I had an unused power adapter lying around.
+For outdoor parties I also bought him a battery.
+The battery lasts for around 10h at a pretty crazy volume.</p>
+
+<p><img src="/images/building-a-r2d2-bluetooth-speaker/r2d2_18.png" alt="R2D2 and his power sources" /></p>
+
+<p>As a gimmick, I also added some beeps when a device connects or disconnects from R2D2.
+Pretty cool.</p>
+
+<p>OK thats it!
+I hope you had fun reading this article and start building your own R2D2 now!</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https://blog.cvguy.de/2017/building-a-r2d2-themed-bluetooth-speaker/ - Building a R2D2 Themed Bluetooth Speaker by @"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+    </section>
+</footer>
+
+<!-- Disqus comments -->
+
+    <div class="archive readmore">
+        <h3>Comments</h3>
+        <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'cvguyde';
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+    </div>
+
+
+<!-- Archive post list -->
+
+
+    <footer id="footer">
+    <p class="small">© Copyright 2022 Lukas</p>
+</footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/bash.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/python.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/kotlin.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/dockerfile.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79522465-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>
+
+
+
